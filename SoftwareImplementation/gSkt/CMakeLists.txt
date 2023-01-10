@@ -1,11 +1,11 @@
 cmake_minimum_required(VERSION 3.20)
 
-project(bSkt)
+project(gSkt)
 
 add_library(
     ${PROJECT_NAME}
     SHARED
-    ${CMAKE_CURRENT_SOURCE_DIR}/src/bSkt.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/src/gSkt.cpp
 )
 
 target_include_directories(
@@ -22,12 +22,12 @@ target_link_libraries(
 )
 
 add_executable(
-    test_bSkt
-    ${CMAKE_CURRENT_SOURCE_DIR}/src/test_bSkt.cpp
+    test_gSkt
+    ${CMAKE_CURRENT_SOURCE_DIR}/src/test_gSkt.cpp
 )
 
 target_link_libraries(
-    test_bSkt
+    test_gSkt
     PUBLIC
     ${PROJECT_NAME}
     mylibpcap

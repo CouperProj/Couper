@@ -1,5 +1,5 @@
-#ifndef _BSKT_H_
-#define _BSKT_H_
+#ifndef _gSkt_H_
+#define _gSkt_H_
 
 #include<iostream>
 #include<array>
@@ -43,14 +43,14 @@ public:
 
 
 template<class Estimator>
-class bSkt{
+class gSkt{
 public:
     uint32_t memory;  //kB
     uint32_t table_size = memory * 1024 * 8 / 4 /Estimator::size;
     vector<vector<Estimator>> tables;
     void process_packet(string flowid,string element);
     void report_superspreaders(vector<IdSpread>& superspreaders);
-    bSkt(uint32_t memory_);
+    gSkt(uint32_t memory_);
     uint32_t get_flow_cardinality(string flowid);
 
     bool DETECT_SUPERSPREADER = false;   //detect super spreaders with piggyback
@@ -60,7 +60,7 @@ public:
 };
 
 template<class Estimator>
-bSkt<Estimator>::bSkt(uint32_t memory_):memory(memory_), table_size(memory * 1024 * 8 / 4 /Estimator::size), tables(4){
+gSkt<Estimator>::gSkt(uint32_t memory_):memory(memory_), table_size(memory * 1024 * 8 / 4 /Estimator::size), tables(4){
     tables[0].resize(table_size);
     tables[1].resize(table_size);
     tables[2].resize(table_size);
@@ -68,7 +68,7 @@ bSkt<Estimator>::bSkt(uint32_t memory_):memory(memory_), table_size(memory * 102
 }
 
 template<class Estimator>
-void bSkt<Estimator>::report_superspreaders(vector<IdSpread>& superspreaders){
+void gSkt<Estimator>::report_superspreaders(vector<IdSpread>& superspreaders){
     superspreaders.clear();
     for(size_t i = 0;i < heap.size();i++){
         superspreaders.push_back(IdSpread(heap[i].flowID, heap[i].spread));

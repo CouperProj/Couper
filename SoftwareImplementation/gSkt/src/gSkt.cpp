@@ -1,4 +1,4 @@
-#include "bSkt.h"
+#include "gSkt.h"
 
 uint8_t HLL::get_leading_zeros(uint32_t bitstr){
     for(size_t i = 1;i <= 32;i++){
@@ -63,8 +63,8 @@ int Bitmap::get_spread(){
 }
 
 template<class Estimator>
-void bSkt<Estimator>::process_packet(string flowid, string element){
-    //bSkt
+void gSkt<Estimator>::process_packet(string flowid, string element){
+    //gSkt
     array<uint64_t,2> hash_flowid = str_hash128(flowid,HASH_SEED_1);
     array<uint64_t,2> hash_element = str_hash128(flowid + element,HASH_SEED_2);
     for(size_t i = 0;i < 4;i++){
@@ -106,8 +106,8 @@ void bSkt<Estimator>::process_packet(string flowid, string element){
 }
 
 template<class Estimator>
-uint32_t bSkt<Estimator>::get_flow_cardinality(string flowid){
-    //bSkt
+uint32_t gSkt<Estimator>::get_flow_cardinality(string flowid){
+    //gSkt
     array<uint64_t,2> hash_flowid = str_hash128(flowid, HASH_SEED_1);
     uint32_t spread = 1<<30;
     for(size_t i = 0;i < 4;i++){
@@ -120,5 +120,5 @@ uint32_t bSkt<Estimator>::get_flow_cardinality(string flowid){
     return spread;
 }
 
-template class bSkt<HLL>;
-template class bSkt<Bitmap>;
+template class gSkt<HLL>;
+template class gSkt<Bitmap>;

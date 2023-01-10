@@ -31,7 +31,7 @@ inline uint32_t get_one_num(uint8_t val){
 }
 
 
-/* A min-heap is used to record super spreaeder candidates for piggyback strategy in bSkt, rerSkt and VHS*/
+/* A min-heap is used to record super spreaeder candidates for piggyback strategy in gSkt, rerSkt and VHS*/
 struct MinHeapCmp {
     inline bool operator()(const IdSpread &x, const IdSpread &y){
         return x.spread > y.spread;
