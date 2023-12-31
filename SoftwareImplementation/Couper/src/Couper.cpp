@@ -166,24 +166,23 @@ uint32_t HyperLogLog::get_counter_val(uint32_t index){
 
 int HyperLogLog::try2update_counter(uint32_t index, uint32_t val_){
     uint32_t uint8_pos = index / 2;
-    uint32_t old_val, new_val;
+    uint32_t old_val;
+    val_ = val_ < 16 ? val_ : 15;
     if(index % 2 == 0){
         old_val = HLL_raw[uint8_pos] >> 4;   //read the high 4 bits
-        new_val = static_cast<uint8_t>(val_) << 4;
-        if (new_val > old_val) {
+        if (val_ > old_val) {
             HLL_raw[uint8_pos] &= 15;            //keep the low 4 bits unchanged 
-            HLL_raw[uint8_pos] |= new_val;       //set the high 4 bits
+            HLL_raw[uint8_pos] |= (static_cast<uint8_t>(val_) << 4);       //set the high 4 bits
         }
     } else {
         old_val = HLL_raw[uint8_pos] & 15;   //read the low 4 bits
-        new_val = static_cast<uint8_t>(val_);
-        if (new_val > old_val) {
+        if (val_ > old_val) {
             HLL_raw[uint8_pos] &= 240;            //keep the high 4 bits unchanged 
-            HLL_raw[uint8_pos] |= new_val;
+            HLL_raw[uint8_pos] |= static_cast<uint8_t>(val_);
         }
     }
-    if (new_val > old_val) {
-        digest += (new_val - old_val);
+    if (val_ > old_val) {
+        digest += (val_ - old_val);
         return digest;
     }
     return 0;
@@ -322,7 +321,7 @@ uint32_t MultiResBitmap::generate_bitmap(){
     for (size_t i = 0;i < multi_layer_merged.size();i++){
         uint32_t tmp = multi_layer_merged[i];
         for (size_t j=0;j<8;j++){
-            if ( tmp & (128>>j) == 1 ){
+            if ( (tmp & (128>>j)) == 1 ){
                 bm.set( (i*8 + j) % Bitmap_Arr::bitmap_size );
             }
         }
